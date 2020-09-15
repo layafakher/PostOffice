@@ -32,8 +32,8 @@ public class Filtering {
                 }
                 break;
         }
-
     }
+
     public static void showOrderConditions(ArrayList<Consignment> consignments){
         System.out.println("1-See received consignments ,2-See unreached consignments ,3-See unsent consignments");
         int res = scanner.nextInt();
@@ -63,13 +63,15 @@ public class Filtering {
     }
     public static void showCostumersConsignments(ArrayList<Consignment> consignments){
         System.out.println("Enter the costumer name :");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         System.out.println("Enter the costumer national code :");
         String nationalCode = scanner.nextLine();
         Costumer costumer = new Costumer(name ,nationalCode);
         for (Consignment consignment:consignments)  {
             if (consignment.getTransferee().equals(costumer) || consignment.getConsignor().equals(costumer)){
+                //System.out.println(consignment.getConsignor());
                 System.out.println(consignment.toString());
+
             }
         }
     }
@@ -77,7 +79,7 @@ public class Filtering {
     public static void showDestinationAndHome(ArrayList<Consignment> consignments){
 
         System.out.println("Enter the city name :");
-        String cityName = scanner.next();
+        String cityName = scanner.nextLine();
         City city = new City(cityName);
         for (Consignment consignment:consignments){
             if (consignment.getDestination().equals(city) || consignment.getHome().equals(city)){
@@ -85,6 +87,21 @@ public class Filtering {
             }
         }
     }
-    public static void showCostumers(ArrayList<Consignment> consignments){}
+    public static void showCostumersDetails(ArrayList<Consignment> consignments){
+        System.out.println("Enter the costumer name :");
+        String name = scanner.nextLine();
+        System.out.println("Enter the costumer national code :");
+        String nationalCode = scanner.nextLine();
+        Costumer costumer = new Costumer(name ,nationalCode);
+        //System.out.println(costumer.toString());
+        System.out.println("History :");
+        //System.out.println(costumer.toString());
+        for (Consignment consignment:consignments)  {
+            if (consignment.getTransferee().equals(costumer) || consignment.getConsignor().equals(costumer)){
+                System.out.println(consignment.getConsignor());
+            }
+        }
+
+    }
 
 }

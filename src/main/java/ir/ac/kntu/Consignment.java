@@ -115,8 +115,8 @@ public class Consignment {
     public String toString() {
         return "Consignment{" +
                 "name='" + name + '\'' +
-                ", consignor=" + consignor +
-                ", transferee=" + transferee +
+                //", consignor=" + consignor +
+               // ", transferee=" + transferee +
                 ", home=" + home +
                 ", destination=" + destination +
                 ", weight=" + weight +
