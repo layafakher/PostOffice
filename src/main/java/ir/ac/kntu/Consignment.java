@@ -11,6 +11,9 @@ public class Consignment {
     private Date receiveTime;
     private WayToSend wayToSend;
     private OrderCondition orderCondition;
+    private Certification certification;
+    private double price;
+
 
     public String getName() {
         return name;
@@ -90,5 +93,39 @@ public class Consignment {
 
     public void setOrderCondition(OrderCondition orderCondition) {
         this.orderCondition = orderCondition;
+    }
+
+    public Certification getCertification() {
+        return certification;
+    }
+
+    public void setCertification(Certification certification) {
+        this.certification = certification;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Consignment{" +
+                "name='" + name + '\'' +
+                ", consignor=" + consignor +
+                ", transferee=" + transferee +
+                ", home=" + home +
+                ", destination=" + destination +
+                ", weight=" + weight +
+                ", loadTime=" + loadTime +
+                ", receiveTime=" + receiveTime +
+                ", wayToSend=" + wayToSend +
+                ", orderCondition=" + orderCondition +
+                ", certification=" + certification +
+                ", price=" + price +
+                '}';
     }
 }
