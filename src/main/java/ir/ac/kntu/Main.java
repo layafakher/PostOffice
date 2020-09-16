@@ -1,9 +1,8 @@
 package ir.ac.kntu;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.Optional;
 
 import static ir.ac.kntu.OrderCondition.*;
 
@@ -23,13 +22,9 @@ public class Main {
         consignment.setTransferee(costumer1);
         consignments.add(consignment);
         Filtering.showCostumersConsignments(consignments);
-        Date date = new Date();
-        boolean res = date.after(new Date(2022,3,4));
-        System.out.println(res);
-        System.out.println(date);
+        Date date=new Date();
+        System.out.println(date.getTime());
+
         //Filtering.showCostumersDetails(consignments);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        java.util.Date date = new Date();
-//        System.out.println(dateFormat.format(date));
     }
 }

@@ -1,7 +1,8 @@
 package ir.ac.kntu;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Date;
+import ir.ac.kntu.*;
 
 public class EditConsignments {
 
@@ -20,7 +21,7 @@ public class EditConsignments {
     public static void addConsignment(ArrayList<Consignment> consignments ,ArrayList<Costumer> costumers){
         Consignment consignment = new Consignment();
         System.out.println("Enter the order name :");
-        String orderName = scanner.next();
+        String orderName = scanner.next();consignment.setName(orderName);
         System.out.println("Enter the consignor nationalCode :");
         String consignorNationalCode = scanner.next();
         System.out.println("Enter the transferee nationalCode :");
@@ -30,8 +31,10 @@ public class EditConsignments {
         for (Costumer costumer:costumers){
             if (costumer.getNationalCode().equals(consignorNationalCode)){
                 consignor  = new Costumer(costumer.getName(),consignorNationalCode);
+                consignment.setConsignor(consignor);
             }else if (costumer.getNationalCode().equals(transfereeNationalCode)){
                 transferee = new Costumer(costumer.getName(),transfereeNationalCode);
+                consignment.setTransferee(transferee);
             }
         }
         if (consignor!=null && transferee!=null){
@@ -45,20 +48,24 @@ public class EditConsignments {
 //            System.out.println("Enter the location of destination City :(x ,Y)");
 //            int x2 = scanner.nextInt();
 //            int y2 = scanner.nextInt();
-            City home = new City(homeCity);
-            City destination = new City(destinationCity);
+            City home = new City(homeCity);consignment.setHome(home);
+            City destination = new City(destinationCity);consignment.setDestination(destination);
             System.out.println("Enter the weight of consignment :");
-            double weight = scanner.nextDouble();
-            System.out.println("Enter the postage date :(year,month,day) ");
+            double weight = scanner.nextDouble();consignment.setWeight(weight);
+            System.out.println("Enter the postage date :(year,month,day,hour) ");
             int year = scanner.nextInt();
             int month = scanner.nextInt();
             int day = scanner.nextInt();
-            Date sendDate = new Date(year,month,day);
-            System.out.println("Enter the receive date :(year,month,day) ");
+            int hour = scanner.nextInt();
+            ir.ac.kntu.Date sendDate = new ir.ac.kntu.Date(year,month,day);
+            sendDate.setHour(hour);
+            System.out.println("Enter the receive date :(year,month,day,hour) ");
             int year2 = scanner.nextInt();
             int month2 = scanner.nextInt();
             int day2 = scanner.nextInt();
-            Date receiveDate = new Date(year,month,day);
+            int hour2 = scanner.nextInt();
+            ir.ac.kntu.Date receiveDate = new ir.ac.kntu.Date(year,month,day);
+            receiveDate.setHour(hour2);
             System.out.println("1-Across land ,2-Across sea ,3-Across air :");
             int ans = scanner.nextInt();
             switch (ans){
@@ -72,7 +79,7 @@ public class EditConsignments {
                     consignment.setWayToSend(WayToSend.AIRWAY);
                     break;
             }
-            System.out.println("1-Private ,2-Ordinary :");
+            System.out.println("1-Certified mail ,2-Ordinary mail :");
             int ans1 = scanner.nextInt();
             switch (ans1){
                 case 1:
@@ -111,14 +118,58 @@ public class EditConsignments {
         String name = scanner.nextLine();
         System.out.println("Enter the consignor name :");
         String consignorNationalCode = scanner.nextLine();
+        Consignment c = new Consignment();
+        boolean isFound = false;
         for (Consignment consignment:consignments){
             if (consignment.getName().equals(name) && consignment.getConsignor().getNationalCode().equals(consignorNationalCode)){
-                Date date = new Date();
-                boolean res = date.before(new Date(consignment.getLoadTime().getYear(),consignment.getLoadTime().getMonth(),consignment.getLoadTime().getDay()));
-            }else {
-                System.out.println("Consignment not found!");
+                c = consignment;
+                isFound = true;
+                break;
+                }
+        }
+        if (isFound){
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            System.out.println(gregorianCalendar.get(Calendar.MONTH));
+            for (Consignment consignment:consignments){
+                String loadTime = consignment.getReceiveTime().getMonth()+"/"+consignment.getReceiveTime().getDay()+"/"+consignment.getReceiveTime().getYear()+" "+consignment.getReceiveTime().getMonth()+":mm:ss";
+                    if (calculateTimeDifference(loadTime)){
+                        consignment.setOrderCondition(OrderCondition.RECEIVED);
+                }
             }
         }
+        else {
+            System.out.println("Consignment not found!");
+        }
 
+    }
+    public static boolean calculateTimeDifference( String dateStop) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+        Date d1 = new Date();
+        Date d2 = null;
+        boolean result = false;
+
+        try {
+//            d1 = format.parse(dateStart);
+            d2 = format.parse(dateStop);
+
+            // in milliseconds
+            long diff = d2.getTime() - d1.getTime();
+//            long diffSeconds = diff / 1000 % 60;
+//            long diffMinutes = diff / (60 * 1000) % 60;
+//            long diffHours = diff / (60 * 60 * 1000) % 24;
+//            long diffDays = diff / (24 * 60 * 60 * 1000);
+//            System.out.print(diffDays + " days, ");
+//            System.out.print(diffHours + " hours, ");
+//            System.out.print(diffMinutes + " minutes, ");
+//            System.out.print(diffSeconds + " seconds.");
+            if (diff<=0){
+                result = true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

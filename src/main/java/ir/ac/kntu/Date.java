@@ -5,6 +5,8 @@ public class Date {
     private int year;
     private int month;
     private int day;
+    private int hour;
+
 
     public Date(int year, int month, int day) {
         checkAndSetDate(year, month, day);
@@ -115,6 +117,14 @@ public class Date {
         firstFraction = (int) ((c - Math.floor(c)) * 1000);
         secondFraction = (int) ((d - Math.floor(d)) * 1000);
         return firstFraction <= b && secondFraction > b;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
     }
 }
 

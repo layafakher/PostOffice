@@ -15,6 +15,24 @@ public class Consignment {
     private double price;
     private String nowCity;
 
+    public Consignment() {
+    }
+
+    public Consignment(String name, Costumer consignor, Costumer transferee, City home, City destination, double weight, Date loadTime, Date receiveTime, WayToSend wayToSend, OrderCondition orderCondition, Certification certification, double price, String nowCity) {
+        this.name = name;
+        this.consignor = consignor;
+        this.transferee = transferee;
+        this.home = home;
+        this.destination = destination;
+        this.weight = weight;
+        this.loadTime = loadTime;
+        this.receiveTime = receiveTime;
+        this.wayToSend = wayToSend;
+        this.orderCondition = orderCondition;
+        this.certification = certification;
+        this.price = price;
+        this.nowCity = nowCity;
+    }
 
     public String getName() {
         return name;
