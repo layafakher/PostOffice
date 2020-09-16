@@ -7,6 +7,7 @@ public class Costumer {
     private String name;
     private String nationalCode;
     private ArrayList<Consignment> consignments = new ArrayList<>();
+    private boolean getDiscount = false;
 
     public Costumer(String name, String nationalCode) {
         this.name = name;
@@ -36,14 +37,24 @@ public class Costumer {
     public void setConsignments(ArrayList<Consignment> consignments) {
         this.consignments = consignments;
     }
+    public  void addTOConsignments(Consignment consignment){
+        this.consignments.add(consignment);
+    }
+
+    public boolean isGetDiscount() {
+        return getDiscount;
+    }
+
+    public void setGeDiscount(boolean geDiscount) {
+        this.getDiscount = geDiscount;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Costumer costumer = (Costumer) o;
-        return name.equals(costumer.name) &&
-                nationalCode.equals(costumer.nationalCode);
+        return name.equals(costumer.name) && nationalCode.equals(costumer.nationalCode);
     }
 
     @Override
@@ -57,6 +68,12 @@ public class Costumer {
                 "name='" + name + '\'' +
                 ", nationalCode='" + nationalCode + '\'' +
                 ", consignments=" + consignments +
+                '}';
+    }
+    public String toString2() {
+        return "Costumer{" +
+                "name='" + name + '\'' +
+                ", nationalCode='" + nationalCode + '\'' +
                 '}';
     }
 }

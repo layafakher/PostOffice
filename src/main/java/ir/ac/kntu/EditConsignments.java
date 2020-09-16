@@ -1,4 +1,7 @@
 package ir.ac.kntu;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
@@ -9,7 +12,6 @@ public class EditConsignments {
     static Scanner scanner = new Scanner(System.in);
 
     public static void addCostumer(ArrayList<Costumer> costumers){
-
         System.out.println("Enter the costumer name :");
         String name = scanner.next();
         System.out.println("Enter the costumer nationalCode :");
@@ -58,14 +60,14 @@ public class EditConsignments {
             int day = scanner.nextInt();
             int hour = scanner.nextInt();
             ir.ac.kntu.Date sendDate = new ir.ac.kntu.Date(year,month,day);
-            sendDate.setHour(hour);
+            sendDate.setHour(hour);consignment.setLoadTime(sendDate);
             System.out.println("Enter the receive date :(year,month,day,hour) ");
             int year2 = scanner.nextInt();
             int month2 = scanner.nextInt();
             int day2 = scanner.nextInt();
             int hour2 = scanner.nextInt();
             ir.ac.kntu.Date receiveDate = new ir.ac.kntu.Date(year,month,day);
-            receiveDate.setHour(hour2);
+            receiveDate.setHour(hour2);consignment.setReceiveTime(receiveDate);
             System.out.println("1-Across land ,2-Across sea ,3-Across air :");
             int ans = scanner.nextInt();
             switch (ans){
@@ -103,12 +105,30 @@ public class EditConsignments {
                     consignment.setOrderCondition(OrderCondition.RECEIVED);
                     break;
             }
-
+            double price = weight*1000;
+            if (consignment.getWayToSend().equals(WayToSend.AIRWAY)){
+                price *= 2;
+            }else if (consignment.getWayToSend().equals(WayToSend.SEAWAY)){
+                price *= 1.5;
+            }else if (consignment.getCertification().equals(Certification.CERTIFICATED)){
+                price *= 2;
+            }else if (consignment.getConsignor().getConsignments().size()>5){
+                consignment.getConsignor().setGeDiscount(true);
+            }
+            else {
+                if (consignment.getConsignor().isGetDiscount()){
+                    price -= 0.1*price;
+                }
+            }
+            consignment.setPrice(price);
+            consignments.add(consignment);
+            consignor.addTOConsignments(consignment);
+            System.out.println(consignment.toString());
         }else {
-            System.out.println("Costumers not fond!");
-            System.out.println("press A to sign up :");
-            String s = scanner.nextLine();
-            if (s.equals("a")){
+            System.out.println("Costumers not found!");
+            System.out.println("press S to sign up :");
+            String s = scanner.next();
+            if (s.equals("s")){
                 addCostumer(costumers);
             }
         }
@@ -136,40 +156,54 @@ public class EditConsignments {
                         consignment.setOrderCondition(OrderCondition.RECEIVED);
                 }
             }
+            c.setOrderCondition(OrderCondition.UNREACHED);
         }
         else {
             System.out.println("Consignment not found!");
         }
-
     }
     public static boolean calculateTimeDifference( String dateStop) {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
         Date d1 = new Date();
         Date d2 = null;
         boolean result = false;
-
         try {
-//            d1 = format.parse(dateStart);
             d2 = format.parse(dateStop);
-
-            // in milliseconds
             long diff = d2.getTime() - d1.getTime();
-//            long diffSeconds = diff / 1000 % 60;
-//            long diffMinutes = diff / (60 * 1000) % 60;
-//            long diffHours = diff / (60 * 60 * 1000) % 24;
-//            long diffDays = diff / (24 * 60 * 60 * 1000);
-//            System.out.print(diffDays + " days, ");
-//            System.out.print(diffHours + " hours, ");
-//            System.out.print(diffMinutes + " minutes, ");
-//            System.out.print(diffSeconds + " seconds.");
             if (diff<=0){
                 result = true;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
+    }
+    public static void pursueAConsignment(ArrayList<Consignment> consignments){
+        System.out.println("Enter the consignment name :");
+        String name = scanner.nextLine();
+        System.out.println("Enter the consignor name :");
+        String consignorNationalCode = scanner.nextLine();
+        Consignment c = new Consignment();
+        boolean isFound = false;
+        for (Consignment consignment:consignments){
+            if (consignment.getName().equals(name) && consignment.getConsignor().getNationalCode().equals(consignorNationalCode)){
+                c = consignment;
+                isFound = true;
+                break;
+            }
+        }
+        if (isFound){
+            System.out.println(c.getOrderCondition().toString());
+
+        }
+    }
+    public static void writeInHtml(ArrayList<Consignment> consignments) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter("./src/main/resources/reportage.html"));
+        pw.println("<TABLE BORDER><TR><TH>Consignment Name<TH>Consignor<TH>Transferee<TH>Weight<TH>Certification<TH>Way To Send<TH>Destination<TH>Price</TR>");
+        for (Consignment consignment1:consignments) {
+            pw.println("<TR><TD>" + consignment1.getName() + "<TD>" + consignment1.getConsignor().toString2()+ "<TD>" +consignment1.getTransferee().toString2()+ "<TD>" +consignment1.getWeight()+ "<TD>" +consignment1.getCertification()+ "<TD>" +consignment1.getWayToSend()+ "<TD>" +consignment1.getDestination()+ "<TD>" +consignment1.getPrice());
+        }
+        pw.println("</TABLE>");
+        pw.close();
     }
 }
