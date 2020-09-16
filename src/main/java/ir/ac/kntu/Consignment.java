@@ -13,6 +13,7 @@ public class Consignment {
     private OrderCondition orderCondition;
     private Certification certification;
     private double price;
+    private String nowCity;
 
 
     public String getName() {
@@ -109,6 +110,14 @@ public class Consignment {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getNowCity() {
+        return nowCity;
+    }
+
+    public void setNowCity(String nowCity) {
+        this.nowCity = nowCity;
     }
 
     @Override

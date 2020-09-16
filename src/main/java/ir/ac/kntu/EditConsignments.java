@@ -1,6 +1,7 @@
 package ir.ac.kntu;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Date;
 
 public class EditConsignments {
 
@@ -8,13 +9,12 @@ public class EditConsignments {
 
     public static void addCostumer(ArrayList<Costumer> costumers){
 
-        System.out.println("Enter your name :");
+        System.out.println("Enter the costumer name :");
         String name = scanner.next();
-        System.out.println("Enter your nationalCode :");
+        System.out.println("Enter the costumer nationalCode :");
         String nationalCode = scanner.next();
         Costumer costumer = new Costumer(name,nationalCode);
         costumers.add(costumer);
-
     }
 
     public static void addConsignment(ArrayList<Consignment> consignments ,ArrayList<Costumer> costumers){
@@ -72,7 +72,7 @@ public class EditConsignments {
                     consignment.setWayToSend(WayToSend.AIRWAY);
                     break;
             }
-            System.out.println("1-private ,2-ordinary :");
+            System.out.println("1-Private ,2-Ordinary :");
             int ans1 = scanner.nextInt();
             switch (ans1){
                 case 1:
@@ -82,11 +82,43 @@ public class EditConsignments {
                     consignment.setCertification(Certification.ORDINARY);
                     break;
             }
-
+            System.out.println("Enter the postage condition :");
+            System.out.println("1-Unsent ,2-Unreached ,3-received :");
+            int ans2 = scanner.nextInt();
+            switch (ans2){
+                case 1:
+                    consignment.setOrderCondition(OrderCondition.UNSENT);
+                    break;
+                case 2:
+                    consignment.setOrderCondition(OrderCondition.UNREACHED);
+                    break;
+                case 3:
+                    consignment.setOrderCondition(OrderCondition.RECEIVED);
+                    break;
+            }
 
         }else {
             System.out.println("Costumers not fond!");
-            System.out.println("You have not signed up yet?!");
+            System.out.println("press A to sign up :");
+            String s = scanner.nextLine();
+            if (s.equals("a")){
+                addCostumer(costumers);
+            }
         }
+    }
+    public static void sendAConsignment(ArrayList<Consignment> consignments){
+        System.out.println("Enter the consignment name :");
+        String name = scanner.nextLine();
+        System.out.println("Enter the consignor name :");
+        String consignorNationalCode = scanner.nextLine();
+        for (Consignment consignment:consignments){
+            if (consignment.getName().equals(name) && consignment.getConsignor().getNationalCode().equals(consignorNationalCode)){
+                Date date = new Date();
+                boolean res = date.before(new Date(consignment.getLoadTime().getYear(),consignment.getLoadTime().getMonth(),consignment.getLoadTime().getDay()));
+            }else {
+                System.out.println("Consignment not found!");
+            }
+        }
+
     }
 }
