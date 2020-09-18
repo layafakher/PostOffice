@@ -28,6 +28,8 @@ public class Main {
         Consignment c = new Consignment();
         c.setTransferee(costumer);
         c.setConsignor(costumer1);
+        costumers.add(costumer);
+        costumers.add(costumer1);
         consignments.add(consignment);
         consignments.add(c);
         while (true){

@@ -51,7 +51,7 @@ public class EditConsignments {
         }
         if (consignor!=null && transferee!=null){
             System.out.println("Enter the home City:");
-            String homeCity = scanner.nextLine();
+            String homeCity = scanner.next();
             System.out.println("Enter the location of home City :(x ,Y)");
             int x1 = scanner.nextInt();
             int y1 = scanner.nextInt();
