@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Costumer {
+
     private String name;
     private String nationalCode;
     private ArrayList<Consignment> consignments = new ArrayList<>();
@@ -45,7 +46,7 @@ public class Costumer {
         return getDiscount;
     }
 
-    public void setGeDiscount(boolean geDiscount) {
+    public void setGetDiscount(boolean geDiscount) {
         this.getDiscount = geDiscount;
     }
 

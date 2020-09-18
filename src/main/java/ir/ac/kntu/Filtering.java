@@ -87,7 +87,7 @@ public class Filtering {
             }
         }
     }
-    public static void showCostumersDetails(ArrayList<Consignment> consignments){
+    public static void showCostumersDetails(ArrayList<Costumer> costumers){
         System.out.println("Enter the costumer name :");
         String name = scanner.nextLine();
         System.out.println("Enter the costumer national code :");
@@ -96,9 +96,9 @@ public class Filtering {
         //System.out.println(costumer.toString());
         System.out.println("History :");
         //System.out.println(costumer.toString());
-        for (Consignment consignment:consignments)  {
-            if (consignment.getTransferee().equals(costumer) || consignment.getConsignor().equals(costumer)){
-                System.out.println(consignment.getConsignor());
+        for (Costumer costumer1:costumers)  {
+            if (costumer1.equals(costumer)){
+                System.out.println(costumer.toString());
             }
         }
 

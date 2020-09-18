@@ -7,6 +7,12 @@ public class City {
     private int x = 0;
     private int y = 0;
 
+    public City(String name, int x, int y) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,5 +52,20 @@ public class City {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public static double calculateDistance(City city1,City city2){
+        double temp = Math.pow((city1.x-city2.x),2)+Math.pow(city1.y-city2.y,2);
+        double distance = Math.sqrt(Math.abs(temp));
+        return distance;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "name='" + name + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

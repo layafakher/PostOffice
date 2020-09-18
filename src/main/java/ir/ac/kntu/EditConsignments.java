@@ -20,6 +20,16 @@ public class EditConsignments {
         costumers.add(costumer);
     }
 
+    public static void addCity(ArrayList<City>cities){
+        System.out.println("Enter th city name :" );
+        String name = scanner.nextLine();
+        System.out.println("Enter the location of home City :(x ,Y)");
+        int x1 = scanner.nextInt();
+        int y1 = scanner.nextInt();
+        City city = new City(name,x1,y1);
+        cities.add(city);
+    }
+
     public static void addConsignment(ArrayList<Consignment> consignments ,ArrayList<Costumer> costumers){
         Consignment consignment = new Consignment();
         System.out.println("Enter the order name :");
@@ -42,16 +52,16 @@ public class EditConsignments {
         if (consignor!=null && transferee!=null){
             System.out.println("Enter the home City:");
             String homeCity = scanner.nextLine();
-//            System.out.println("Enter the location of home City :(x ,Y)");
-//            int x1 = scanner.nextInt();
-//            int y1 = scanner.nextInt();
+            System.out.println("Enter the location of home City :(x ,Y)");
+            int x1 = scanner.nextInt();
+            int y1 = scanner.nextInt();
             System.out.println("Enter the destination City:");
-            String destinationCity = scanner.nextLine();
-//            System.out.println("Enter the location of destination City :(x ,Y)");
-//            int x2 = scanner.nextInt();
-//            int y2 = scanner.nextInt();
-            City home = new City(homeCity);consignment.setHome(home);
-            City destination = new City(destinationCity);consignment.setDestination(destination);
+            String destinationCity = scanner.next();
+            System.out.println("Enter the location of destination City :(x ,Y)");
+            int x2 = scanner.nextInt();
+            int y2 = scanner.nextInt();
+            City home = new City(homeCity,x1,y1);consignment.setHome(home);
+            City destination = new City(destinationCity,x2,y2);consignment.setDestination(destination);
             System.out.println("Enter the weight of consignment :");
             double weight = scanner.nextDouble();consignment.setWeight(weight);
             System.out.println("Enter the postage date :(year,month,day,hour) ");
@@ -105,7 +115,22 @@ public class EditConsignments {
                     consignment.setOrderCondition(OrderCondition.RECEIVED);
                     break;
             }
-            double price = weight*1000;
+            double price = weight*1+0.1*City.calculateDistance(home,destination);
+            if (City.calculateDistance(home,destination)>5000){
+                if (consignment.getWayToSend().equals(WayToSend.OVERLAND)){
+                    System.out.println("The distance between destination&home is more than 5km:");
+                    System.out.println("Choose another way to send:(1-Airway ,2-Seaway");
+                    String s = scanner.next();
+                    switch (s){
+                        case "1":
+                            consignment.setWayToSend(WayToSend.AIRWAY);
+                            break;
+                        case "2":
+                            consignment.setWayToSend(WayToSend.SEAWAY);
+                            break;
+                    }
+                }
+            }
             if (consignment.getWayToSend().equals(WayToSend.AIRWAY)){
                 price *= 2;
             }else if (consignment.getWayToSend().equals(WayToSend.SEAWAY)){
@@ -113,7 +138,7 @@ public class EditConsignments {
             }else if (consignment.getCertification().equals(Certification.CERTIFICATED)){
                 price *= 2;
             }else if (consignment.getConsignor().getConsignments().size()>5){
-                consignment.getConsignor().setGeDiscount(true);
+                consignment.getConsignor().setGetDiscount(true);
             }
             else {
                 if (consignment.getConsignor().isGetDiscount()){
@@ -136,7 +161,7 @@ public class EditConsignments {
     public static void sendAConsignment(ArrayList<Consignment> consignments){
         System.out.println("Enter the consignment name :");
         String name = scanner.nextLine();
-        System.out.println("Enter the consignor name :");
+        System.out.println("Enter the consignor national code :");
         String consignorNationalCode = scanner.nextLine();
         Consignment c = new Consignment();
         boolean isFound = false;
@@ -162,6 +187,7 @@ public class EditConsignments {
             System.out.println("Consignment not found!");
         }
     }
+
     public static boolean calculateTimeDifference( String dateStop) {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date d1 = new Date();
@@ -181,9 +207,9 @@ public class EditConsignments {
     public static void pursueAConsignment(ArrayList<Consignment> consignments){
         System.out.println("Enter the consignment name :");
         String name = scanner.nextLine();
-        System.out.println("Enter the consignor name :");
+        System.out.println("Enter the consignor national code :");
         String consignorNationalCode = scanner.nextLine();
-        Consignment c = new Consignment();
+        Consignment c = null;
         boolean isFound = false;
         for (Consignment consignment:consignments){
             if (consignment.getName().equals(name) && consignment.getConsignor().getNationalCode().equals(consignorNationalCode)){
@@ -194,16 +220,47 @@ public class EditConsignments {
         }
         if (isFound){
             System.out.println(c.getOrderCondition().toString());
-
+        }else {
+            System.out.println("Consignment not found!");
         }
     }
+
+    public static void updateAConsignment(ArrayList<Consignment> consignments){
+        System.out.println("Enter the consignment name :");
+        String name = scanner.nextLine();
+        System.out.println("Enter the consignor national code :");
+        String consignorNationalCode = scanner.nextLine();
+        Consignment c = null;
+        boolean isFound = false;
+        for (Consignment consignment:consignments){
+            if (consignment.getName().equals(name) && consignment.getConsignor().getNationalCode().equals(consignorNationalCode)){
+                c = consignment;
+                isFound = true;
+                break;
+            }
+        }
+        if (isFound){
+            System.out.println("Enter the name of city consignment is :");
+            String name1 = scanner.nextLine();
+            System.out.println("Enter the city location :(x,y)");
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            City city = new City(name1,x,y);
+            c.setNowCity(city);
+            System.out.println(c.getNowCity().toString());
+        }else {
+            System.out.println("Consignment not found!");
+        }
+    }
+
     public static void writeInHtml(ArrayList<Consignment> consignments) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter("./src/main/resources/reportage.html"));
-        pw.println("<TABLE BORDER><TR><TH>Consignment Name<TH>Consignor<TH>Transferee<TH>Weight<TH>Certification<TH>Way To Send<TH>Destination<TH>Price</TR>");
+        pw.println("<TABLE BORDER='1' CELLSPACING='0'  ><TR><TH>Consignment Name<TH>Consignor<TH>Transferee<TH>Weight<TH>Certification<TH>Way To Send<TH>Destination<TH>Order Condition<TH>Price</TR>");
         for (Consignment consignment1:consignments) {
-            pw.println("<TR><TD>" + consignment1.getName() + "<TD>" + consignment1.getConsignor().toString2()+ "<TD>" +consignment1.getTransferee().toString2()+ "<TD>" +consignment1.getWeight()+ "<TD>" +consignment1.getCertification()+ "<TD>" +consignment1.getWayToSend()+ "<TD>" +consignment1.getDestination()+ "<TD>" +consignment1.getPrice());
+            pw.println("<TR><TD>" + consignment1.getName() + "<TD>" + consignment1.getConsignor().toString2()+ "<TD>" +consignment1.getTransferee().toString2()+ "<TD>" +consignment1.getWeight()+ "<TD>" +consignment1.getCertification()+ "<TD>" +consignment1.getWayToSend()+ "<TD>" +consignment1.getDestination()+ "<TD>" +consignment1.getOrderCondition()+ "<TD>" +consignment1.getPrice());
         }
         pw.println("</TABLE>");
         pw.close();
     }
+
 }

@@ -13,12 +13,12 @@ public class Consignment {
     private OrderCondition orderCondition;
     private Certification certification;
     private double price;
-    private String nowCity;
+    private City nowCity;
 
     public Consignment() {
     }
 
-    public Consignment(String name, Costumer consignor, Costumer transferee, City home, City destination, double weight, Date loadTime, Date receiveTime, WayToSend wayToSend, OrderCondition orderCondition, Certification certification, double price, String nowCity) {
+    public Consignment(String name, Costumer consignor, Costumer transferee, City home, City destination, double weight, Date loadTime, Date receiveTime, WayToSend wayToSend, OrderCondition orderCondition, Certification certification, double price) {
         this.name = name;
         this.consignor = consignor;
         this.transferee = transferee;
@@ -31,7 +31,7 @@ public class Consignment {
         this.orderCondition = orderCondition;
         this.certification = certification;
         this.price = price;
-        this.nowCity = nowCity;
+
     }
 
     public String getName() {
@@ -130,11 +130,11 @@ public class Consignment {
         this.price = price;
     }
 
-    public String getNowCity() {
+    public City getNowCity() {
         return nowCity;
     }
 
-    public void setNowCity(String nowCity) {
+    public void setNowCity(City nowCity) {
         this.nowCity = nowCity;
     }
 
