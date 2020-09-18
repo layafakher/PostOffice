@@ -18,6 +18,7 @@ public class EditConsignments {
         String nationalCode = scanner.next();
         Costumer costumer = new Costumer(name,nationalCode);
         costumers.add(costumer);
+        System.out.println(costumer.toString());
     }
 
     public static void addCity(ArrayList<City>cities){
@@ -28,6 +29,7 @@ public class EditConsignments {
         int y1 = scanner.nextInt();
         City city = new City(name,x1,y1);
         cities.add(city);
+        System.out.println(city.toString());
     }
 
     public static void addConsignment(ArrayList<Consignment> consignments ,ArrayList<Costumer> costumers){
