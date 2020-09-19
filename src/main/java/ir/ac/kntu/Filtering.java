@@ -41,21 +41,21 @@ public class Filtering {
             case "1":
                 for (Consignment consignment:consignments){
                     if (consignment.getOrderCondition().equals(OrderCondition.RECEIVED)){
-                        System.out.println(consignment.toString());
+                        System.out.println(consignment.toString2());
                     }
                 }
                 break;
             case "2":
                 for (Consignment consignment:consignments){
                     if (consignment.getOrderCondition().equals(OrderCondition.UNREACHED)){
-                        System.out.println(consignment.toString());
+                        System.out.println(consignment.toString2());
                     }
                 }
                 break;
             case "3":
                 for (Consignment consignment:consignments){
                     if (consignment.getOrderCondition().equals(OrderCondition.UNSENT)){
-                        System.out.println(consignment.toString());
+                        System.out.println(consignment.toString2());
                     }
                 }
                 break;
