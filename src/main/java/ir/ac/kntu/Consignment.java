@@ -155,12 +155,4 @@ public class Consignment {
                 ", price=" + price +
                 '}';
     }
-
-
-    public String toString2() {
-        return "Consignment{" +
-                "name='" + name + '\'' +
-                ", consignor=" + consignor ;
-
-    }
 }

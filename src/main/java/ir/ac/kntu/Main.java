@@ -18,7 +18,6 @@ public class Main {
         ArrayList<Costumer> costumers = new ArrayList<>();
         ArrayList<City> cities = new ArrayList<>();
         Consignment consignment = new Consignment();
-        consignment.setWayToSend(WayToSend.AIRWAY);consignment.setOrderCondition(UNSENT);consignment.setHome(new City("Tehran",50,50));consignment.setDestination(new City("Tehran",50,50));
         consignment.setName("c");
         Costumer costumer = new Costumer("laya" ,"1234");
         costumer.setConsignments(consignments);
@@ -31,12 +30,11 @@ public class Main {
         c.setConsignor(costumer1);
         costumers.add(costumer);
         costumers.add(costumer1);
-        c.setWayToSend(WayToSend.AIRWAY);c.setOrderCondition(UNREACHED);c.setHome(new City("Yazd",50,50));c.setDestination(new City("Babol",70,70));
         consignments.add(consignment);
         consignments.add(c);
         while (true){
             System.out.println("1-Add costumer ,2-Add city ,3-Add consignment ,4-Send a consignment ,5-Pursue a consignment ,");
-            System.out.println("6-Update a consignment ,7-Search for a costumer ,8-Search by destination & home ,9-Search by way to send ,");
+            System.out.println("6-Update a consignment ,7-Search for a costumer ,8-Search by destination&home ,9-Search by way to send ,");
             System.out.println("10-Search by postage condition ,11-Search for a consignment by costumer ,12-Save reportage in html file");
             String ans = sc.nextLine();
             switch (ans){
